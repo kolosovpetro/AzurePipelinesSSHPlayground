@@ -19,7 +19,7 @@ stages:
         steps:
           - task: SSH@0
             inputs:
-            sshEndpoint: 'SSHConnection'
-            runOptions: 'commands'
-            commands: |
-              cat ~/.ssh/authorized_keys
+              sshEndpoint: 'SSHConnection'
+              runOptions: 'commands'
+              commands: |
+                cat ~/.ssh/authorized_keys
