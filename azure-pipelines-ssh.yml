@@ -30,7 +30,7 @@ stages:
             inputs:
               ansibleInterface: remoteMachine
               connectionOverSsh: SSHConnection
-              playbookRootRemoteMachine: '~/ansible_playbooks'
+              playbookRootRemoteMachine: '$(System.DefaultWorkingDirectory)'
               playbookPathLinkedArtifactOnRemoteMachine: ansible_hotel360.yml
               inventoriesRemoteMachine: hostList
               inventoryHostListRemoteMachine: 20.223.160.235
