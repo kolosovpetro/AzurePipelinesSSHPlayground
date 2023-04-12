@@ -1,0 +1,25 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - '*'
+
+stages:
+  - stage: 'SSH_task'
+    displayName: 'SSH Task'
+    jobs:
+      - job: 'Build'
+        displayName: 'SSH Task'
+        pool:
+          vmImage: 'ubuntu-latest'
+        
+        steps:
+          - task: SSH@0
+            inputs:
+            sshEndpoint: 'SSHConnection'
+            runOptions: 'commands'
+            commands: |
+              cat ~/.ssh/authorized_keys
