@@ -23,5 +23,14 @@ stages:
               runOptions: 'commands'
               commands: |
                 cat ~/.ssh/authorized_keys
-                cd ~/ansible_playbooks
-                ansible-playbook ansible_hotel360.yml
+
+
+          - task: ms-vscs-rm.vss-services-ansible.ansible-task.Ansible@0
+            displayName: 'Run playbook'
+            inputs:
+              ansibleInterface: remoteMachine
+              connectionOverSsh: AnsibleSSHConnection
+              playbookRootRemoteMachine: '~/ansible_playbooks'
+              playbookPathLinkedArtifactOnRemoteMachine: ansible_hotel360.yml
+              inventoriesRemoteMachine: hostList
+              inventoryHostListRemoteMachine: 20.223.160.235
