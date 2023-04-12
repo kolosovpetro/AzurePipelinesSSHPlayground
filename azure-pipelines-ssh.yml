@@ -29,7 +29,7 @@ stages:
             displayName: 'Run playbook'
             inputs:
               ansibleInterface: remoteMachine
-              connectionOverSsh: AnsibleSSHConnection
+              connectionOverSsh: SSHConnection
               playbookRootRemoteMachine: '~/ansible_playbooks'
               playbookPathLinkedArtifactOnRemoteMachine: ansible_hotel360.yml
               inventoriesRemoteMachine: hostList
