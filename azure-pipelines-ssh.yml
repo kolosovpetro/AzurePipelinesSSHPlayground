@@ -23,3 +23,5 @@ stages:
               runOptions: 'commands'
               commands: |
                 cat ~/.ssh/authorized_keys
+                cd ~/ansible_playbooks
+                ansible-playbook ansible_hotel360.yml
