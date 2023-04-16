@@ -7,6 +7,12 @@ trigger:
     include:
       - '*'
 
+variables:
+  - name: 'vmIpAddress'
+    value: '20.223.160.235'
+  - name: 'sshUser'
+    value: 'razumovsky_r'
+
 stages:
   - stage: 'SSH_task'
     displayName: 'SSH Task'
@@ -24,13 +30,43 @@ stages:
               commands: |
                 cat ~/.ssh/authorized_keys
 
-
-          - task: ms-vscs-rm.vss-services-ansible.ansible-task.Ansible@0
-            displayName: 'Run playbook'
+          - task: DownloadSecureFile@1
+            name: sshKey
+            displayName: 'Download SSH key'
             inputs:
-              ansibleInterface: remoteMachine
-              connectionOverSsh: SSHConnection
-              playbookRootRemoteMachine: '$(System.DefaultWorkingDirectory)'
-              playbookPathLinkedArtifactOnRemoteMachine: ansible_hotel360.yml
-              inventoriesRemoteMachine: hostList
-              inventoryHostListRemoteMachine: 20.223.160.235
+              secureFile: 'id_rsa'
+
+          - script: |
+              echo "Installing $(sshKey.secureFilePath) to SSH config"
+              mkdir -p ~/.ssh/
+              cp $(sshKey.secureFilePath) ~/.ssh/id_rsa
+              chmod 600 ~/.ssh/id_rsa
+              cat >>~/.ssh/config <<END
+              Host staging
+                HostName $(vmIpAddress)
+                User $(sshUser)
+                IdentityFile ~/.ssh/id_rsa
+                StrictHostKeyChecking no
+              END
+            displayName: 'Add SSH Config'
+
+          - script: cat ~/.ssh/config
+            displayName: 'Print SSH Config'
+
+          - script: ssh staging -v "hostname"
+            displayName: 'Test SSH Config'
+
+          - script: ssh -v $(sshUser)@$(vmIpAddress) "hostname"
+            displayName: 'Test SSH Conection'
+            
+
+
+          # - task: ms-vscs-rm.vss-services-ansible.ansible-task.Ansible@0
+          #   displayName: 'Run playbook'
+          #   inputs:
+          #     ansibleInterface: remoteMachine
+          #     connectionOverSsh: SSHConnection
+          #     playbookRootRemoteMachine: '$(System.DefaultWorkingDirectory)'
+          #     playbookPathLinkedArtifactOnRemoteMachine: ansible_hotel360.yml
+          #     inventoriesRemoteMachine: hostList
+          #     inventoryHostListRemoteMachine: 20.223.160.235
