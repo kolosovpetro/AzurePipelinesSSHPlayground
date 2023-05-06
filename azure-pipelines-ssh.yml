@@ -65,10 +65,10 @@ stages:
                 $(sshUser)@$(vmIpAddress):/home/$(sshUser)/ansible_playbooks/ansible_hotel360_azdo_copy.yml
             displayName: 'Copy Ansible Playbook to VM'
             
-#          - script: |
-#              ssh staging -v "ansible-playbook ansible_hotel360_azdo_copy.yml"
-#            workingDirectory: '/home/$(sshUser)/ansible_playbooks'
-#            displayName: 'Run Ansible Playbook on VM'
+          - script: |
+              ssh staging -v "ansible-playbook ansible_hotel360_azdo_copy.yml"
+            workingDirectory: '/home/$(sshUser)/ansible_playbooks'
+            displayName: 'Run Ansible Playbook on VM'
           
           
           
