@@ -40,12 +40,11 @@
           name: B_Gen5_1
           tier: Basic
         location: "{{ location }}"
-        storage_profile:
-          storage_mb: 51200
         version: "5.7"
         enforce_ssl: True
         admin_username: "{{ admin_username }}"
         admin_password: "{{ admin_password }}"
+        storage_mb: 51200
 
     - name: Open firewall to access MySQL Server from outside
       azure_rm_resource:
