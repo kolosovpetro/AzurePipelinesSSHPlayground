@@ -66,8 +66,7 @@ stages:
             displayName: 'Copy Ansible Playbook to VM'
             
           - script: |
-              ssh staging -v "ansible-playbook ansible_hotel360_azdo_copy.yml"
-            workingDirectory: '/home/$(sshUser)/ansible_playbooks'
+              ssh staging -v "/home/$(sshUser)/ansible_playbooks/ansible-playbook ansible_hotel360_azdo_copy.yml"
             displayName: 'Run Ansible Playbook on VM'
           
           
