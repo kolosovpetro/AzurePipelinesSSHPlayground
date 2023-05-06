@@ -60,10 +60,7 @@ stages:
             displayName: 'Test SSH Connection'
 
           - script: |
-              scp -r \ 
-              -i ~/.ssh/id_rsa \ 
-              ansible_hotel360.yml \ 
-              $(sshUser)@$(vmIpAddress):/home/$(sshUser)/ansible_playbooks/ansible_hotel360_azdo_copy.yml
+              scp -r -i $(sshKey.secureFilePath) ansible_hotel360.yml $(sshUser)@$(vmIpAddress):/home/$(sshUser)/ansible_playbooks/ansible_hotel360_azdo_copy.yml
             displayName: 'Copy Ansible Playbook to VM'
           
           
