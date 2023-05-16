@@ -1,0 +1,5 @@
+Host windows
+HostName 74.234.112.155
+User razumovsky_r
+IdentityFile ~/.ssh/id_rsa_windows
+StrictHostKeyChecking no
