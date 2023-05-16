@@ -4,6 +4,12 @@ Virtual machine SSH connection testing out including run of ansible playbooks
 
 - https://dev.azure.com/PetroKolosovProjects/AzureSSHPlayground
 
+## Trello tasks
+
+- Windows SSH: https://trello.com/c/VMsz7Qkh
+- Ubuntu SSH: https://trello.com/c/35maBR5a
+- Ansible via SSH: https://trello.com/c/bprTa7Jr
+
 ## Windows OpenSSH
 
 - https://youtu.be/pFTC4Rt-EDQ
