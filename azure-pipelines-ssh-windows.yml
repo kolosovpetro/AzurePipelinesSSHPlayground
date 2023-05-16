@@ -28,7 +28,7 @@ stages:
               sshEndpoint: 'WindowsSSHConnection'
               runOptions: 'commands'
               commands: |
-                Get-Content "C:\ProgramData\ssh\administrators_authorized_keys"
+                powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys
 
           - task: DownloadSecureFile@1
             name: sshKey
@@ -53,10 +53,10 @@ stages:
           - script: cat ~/.ssh/config
             displayName: 'Print SSH Config'
 
-          - script: ssh staging -v "Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+          - script: ssh staging -v "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
             displayName: 'Test SSH Config'
 
-          - script: ssh -v $(sshUser)@$(vmIpAddress) "Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+          - script: ssh -v $(sshUser)@$(vmIpAddress) "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
             displayName: 'Test SSH Connection'
 
           - script: |
