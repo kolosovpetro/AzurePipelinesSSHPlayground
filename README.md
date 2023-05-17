@@ -4,13 +4,38 @@ Virtual machine SSH connection testing out including run of ansible playbooks
 
 - https://dev.azure.com/PetroKolosovProjects/AzureSSHPlayground
 
+## SSH connect CLI commands
+
+- ssh -i id_rsa razumovsky_r@74.234.112.155
+- sudo ssh -i id_rsa razumovsky_r@74.234.112.155
+- ssh -i id_rsa pkolosov@74.234.112.155
+- ssh -o StrictHostKeyChecking=no -i id_rsa razumovsky_r@74.234.112.155
+- sudo ssh -o StrictHostKeyChecking=no -i id_rsa razumovsky_r@74.234.112.155
+
+## Config paths
+
+- SSH WSL config is under path: `/root/.ssh/config`
+- SSH Windows Client config is under path: `C:\Users\pkolosov\.ssh`
+
+## SCP commands
+
+- sudo scp -i id_rsa_windows ansible_config.yml razumovsky_r@74.234.112.155:C:
+  /Users/razumovsky_r/Desktop/ansible_hotel360_azdo_copy.yml
+- scp -i id_rsa_windows ansible_config.yml razumovsky_r@74.234.112.155:C:
+  /Users/razumovsky_r/Desktop/ansible_hotel360_azdo_copy.yml
+
+## Generate SSH keys for Azure Pipelines
+
+- ssh-keygen -m PEM -t rsa -b 2048
+- ssh-keygen -m PEM -t rsa -b 2048 -f "id_rsa"
+
 ## Trello tasks
 
 - Windows SSH: https://trello.com/c/VMsz7Qkh
 - Ubuntu SSH: https://trello.com/c/35maBR5a
 - Ansible via SSH: https://trello.com/c/bprTa7Jr
 
-## Windows OpenSSH
+## Windows OpenSSH Reading
 
 - https://youtu.be/pFTC4Rt-EDQ
 - https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement
