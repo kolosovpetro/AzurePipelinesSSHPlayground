@@ -18,7 +18,7 @@ env:
 jobs:
   gha-ssh-ubuntu-agent-to-windows:
     name: SSH Windows Agent To Windows
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
 
