@@ -53,7 +53,7 @@ stages:
 #          - script: cat ~/.ssh/config
 #            displayName: 'Print SSH Config'
 
-          - script: ssh staging -v "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+          - script: ssh staging -vvv "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
             displayName: 'Test SSH Config'
 
           - script: ssh -v $(sshUser)@$(vmIpAddress) "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
