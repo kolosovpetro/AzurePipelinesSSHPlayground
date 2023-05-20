@@ -12,8 +12,8 @@ on:
   workflow_dispatch:
 
 env:
-  vmIpAddress: 20.223.160.235
-  sshUser: razumovsky_r
+  VM_IP_ADDRESS: 20.223.160.235
+  SSH_USER: razumovsky_r
 
 jobs:
   gha-ssh-ubuntu-agent-to-ubuntu:
@@ -29,8 +29,8 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           cat >>~/.ssh/config <<END
           Host staging
-            HostName 20.223.160.235
-            User razumovsky_r
+            HostName ${{ env.VM_IP_ADDRESS }}
+            User ${{ env.SSH_USER }}
             IdentityFile ~/.ssh/id_rsa
             StrictHostKeyChecking no
           END
@@ -46,10 +46,10 @@ jobs:
         shell: bash
 
       - name: 'Test SSH Connection'
-        run: ssh -v $(sshUser)@$(vmIpAddress) "hostname"
+        run: ssh -v ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }} "hostname"
         shell: bash
 
       - name: 'Copy Ansible Playbook to VM'
         run: scp -r -i "~/.ssh/id_rsa" ansible_hotel360.yml \
-          $(sshUser)@$(vmIpAddress):/home/$(sshUser)/ansible_playbooks/ansible_hotel360_gha_copy.yml
+          ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }}:/home/${{ env.SSH_USER }}/ansible_playbooks/ansible_hotel360_gha_copy.yml
         shell: bash
