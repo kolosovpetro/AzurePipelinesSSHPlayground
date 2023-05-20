@@ -43,15 +43,17 @@ jobs:
         run: ssh windows -vvv "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
         shell: pwsh
 
-#      - name: 'Test SSH Connection'
-#        run: | 
-#          ssh -v ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }} \
-#            "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
-#        shell: bash
-#
-#      - name: 'Copy Ansible Playbook to VM'
-#        run: |
-#          chmod 600 ~/.ssh/id_rsa
-#          scp -r -i "~/.ssh/id_rsa" ansible_hotel360.yml \
-#            ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }}:C:/Users/${{ env.SSH_USER }}/Desktop/ansible_hotel360_gha_windows_copy.yml
-#        shell: bash
+      - name: 'Test SSH Connection'
+        run: | 
+          ssh -v ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }} `
+            "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+        shell: pwsh
+
+      - name: 'Copy Ansible Playbook to VM'
+        run: |
+          $config="C:/Users/runneradmin/.ssh/config"
+          $key="~/.ssh/id_rsa_windows"
+          $dest="C:/Users/razumovsky_r/Desktop/ansible_hotel360_ssh_windows_agent_copy.yml"
+          scp -F $config -i $key ansible_hotel360.yml ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }}:$dest
+          ssh windows -v "powershell Get-Content $dest"
+        shell: pwsh
