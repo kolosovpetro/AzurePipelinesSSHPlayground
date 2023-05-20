@@ -1,3 +1,9 @@
+Host staging
+HostName 20.223.160.235
+User razumovsky_r
+IdentityFile ~/.ssh/id_rsa
+StrictHostKeyChecking no
+
 Host windows
 HostName 74.234.112.155
 User razumovsky_r
