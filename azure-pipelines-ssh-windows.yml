@@ -1,11 +1,13 @@
-trigger:
-  batch: true
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - '*'
+#trigger:
+#  batch: true
+#  branches:
+#    include:
+#      - master
+#  paths:
+#    include:
+#      - '*'
+
+trigger: none
 
 variables:
   - name: 'vmIpAddress'
@@ -64,10 +66,10 @@ stages:
               scp -r -i $(sshKey.secureFilePath) ansible_hotel360.yml \
                 $(sshUser)@$(vmIpAddress):C:/Users/razumovsky_r/Desktop/ansible_hotel360_pipeline_copy.yml
             displayName: 'Copy Ansible Playbook to VM'
-            
-#          - script: |
-#              ssh staging -v "/home/$(sshUser)/.local/bin/ansible-playbook ~/ansible_playbooks/ansible_hotel360_azdo_copy.yml"
-#            displayName: 'Run Ansible Playbook on VM'
+          
+          #          - script: |
+          #              ssh staging -v "/home/$(sshUser)/.local/bin/ansible-playbook ~/ansible_playbooks/ansible_hotel360_azdo_copy.yml"
+          #            displayName: 'Run Ansible Playbook on VM'
           
           
           
