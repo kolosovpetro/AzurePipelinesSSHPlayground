@@ -30,15 +30,14 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.UBUNTU_SSH_KEY }}
           
-#      - name: 'Configure SSH'
-#        shell: pwsh
-#        run: |
-#          Copy-Item ssh_config -Destination "C:/Users/runneradmin/.ssh/config"
-#          Get-Content "C:/Users/runneradmin/.ssh/config"
-#
-#      - name: 'Print SSH Config'
-#        run: cat ~/.ssh/config
-#        shell: bash
+      - name: 'Configure SSH'
+        shell: pwsh
+        run: |
+          Copy-Item ssh_config -Destination "C:/Users/runneradmin/.ssh/config"
+
+      - name: 'Print SSH Config'
+        run: Get-Content "C:/Users/runneradmin/.ssh/config"
+        shell: pwsh
 
       - name: Test SSH Config
         run: ssh staging -vvv "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"

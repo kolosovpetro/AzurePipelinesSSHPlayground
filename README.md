@@ -22,6 +22,11 @@ Windows Azure pipelines agent looks for ssh config in folders:
 - debug3: Failed to open file:C:/Users/VssAdministrator/.ssh/config error:2
 - debug3: Failed to open file:C:/ProgramData/ssh/ssh_config error:2
 
+Windows Github actions agent looks for ssh config in folders:
+
+- debug3: Failed to open file:C:/Users/runneradmin/.ssh/config error:2
+- debug3: Failed to open file:C:/ProgramData/ssh/ssh_config error:2
+
 ## SCP commands
 
 - sudo scp -i id_rsa_windows ansible_config.yml razumovsky_r@74.234.112.155:C:
