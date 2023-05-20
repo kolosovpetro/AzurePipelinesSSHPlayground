@@ -1,0 +1,55 @@
+﻿name: SSH Ubuntu Agent To Ubuntu
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+env:
+  vmIpAddress: 20.223.160.235
+  sshUser: razumovsky_r
+
+jobs:
+  gha-ssh-ubuntu-agent-to-ubuntu:
+    name: SSH Ubuntu Agent To Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Configure SSH'
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName 20.223.160.235
+            User razumovsky_r
+            IdentityFile ~/.ssh/id_rsa
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_KEY: ${{ secrets.UBUNTU_SSH_KEY }}
+
+      - name: 'Print SSH Config'
+        run: cat ~/.ssh/config
+        shell: bash
+
+      - name: Test SSH Config
+        run: ssh staging -v "hostname"
+        shell: bash
+
+      - name: 'Test SSH Connection'
+        run: ssh -v $(sshUser)@$(vmIpAddress) "hostname"
+        shell: bash
+
+      - name: 'Copy Ansible Playbook to VM'
+        run: scp -r -i "~/.ssh/id_rsa" ansible_hotel360.yml \
+          $(sshUser)@$(vmIpAddress):/home/$(sshUser)/ansible_playbooks/ansible_hotel360_gha_copy.yml
+        shell: bash
