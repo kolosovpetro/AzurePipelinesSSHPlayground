@@ -11,32 +11,32 @@ trigger: none
 
 variables:
   - name: 'vmIpAddress'
-    value: '20.223.160.235'
+    value: '74.234.112.155'
   - name: 'sshUser'
     value: 'razumovsky_r'
 
 stages:
-  - stage: 'SSH_task'
-    displayName: 'SSH Task'
+  - stage: 'SSH_Ubuntu_Agent_To_Windows'
+    displayName: 'SSH Ubuntu Agent To Windows'
     jobs:
       - job: 'Build'
-        displayName: 'SSH Task'
+        displayName: 'SSH Ubuntu Agent To Windows'
         pool:
           vmImage: 'ubuntu-latest'
         
         steps:
           - task: SSH@0
             inputs:
-              sshEndpoint: 'SSHConnection'
+              sshEndpoint: 'WindowsSSHConnection'
               runOptions: 'commands'
               commands: |
-                cat ~/.ssh/authorized_keys
+                powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys
 
           - task: DownloadSecureFile@1
             name: sshKey
             displayName: 'Download SSH key'
             inputs:
-              secureFile: 'id_rsa'
+              secureFile: 'id_rsa_windows'
 
           - script: |
               echo "Installing $(sshKey.secureFilePath) to SSH config"
@@ -55,21 +55,21 @@ stages:
           - script: cat ~/.ssh/config
             displayName: 'Print SSH Config'
 
-          - script: ssh staging -v "hostname"
+          - script: ssh staging -v "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
             displayName: 'Test SSH Config'
 
-          - script: ssh -v $(sshUser)@$(vmIpAddress) "hostname"
+          - script: ssh -v $(sshUser)@$(vmIpAddress) "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
             displayName: 'Test SSH Connection'
 
           - script: |
               chmod 600 $(sshKey.secureFilePath)
               scp -r -i $(sshKey.secureFilePath) ansible_hotel360.yml \
-                $(sshUser)@$(vmIpAddress):/home/$(sshUser)/ansible_playbooks/ansible_hotel360_azdo_copy.yml
+                $(sshUser)@$(vmIpAddress):C:/Users/razumovsky_r/Desktop/ansible_hotel360_pipeline_copy.yml
             displayName: 'Copy Ansible Playbook to VM'
-            
-#          - script: |
-#              ssh staging -v "/home/$(sshUser)/.local/bin/ansible-playbook ~/ansible_playbooks/ansible_hotel360_azdo_copy.yml"
-#            displayName: 'Run Ansible Playbook on VM'
+          
+          #          - script: |
+          #              ssh staging -v "/home/$(sshUser)/.local/bin/ansible-playbook ~/ansible_playbooks/ansible_hotel360_azdo_copy.yml"
+          #            displayName: 'Run Ansible Playbook on VM'
           
           
           

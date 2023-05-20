@@ -14,11 +14,11 @@ variables:
     value: 'razumovsky_r'
 
 stages:
-  - stage: 'SSH_task_Windows'
-    displayName: 'SSH Task Windows'
+  - stage: 'SSH_Windows_Agent_To_Windows'
+    displayName: 'SSH Windows Agent To Windows'
     jobs:
       - job: 'Build'
-        displayName: 'SSH Task Windows'
+        displayName: 'SSH Windows Agent To Windows'
         pool:
           vmImage: 'windows-latest'
         
