@@ -35,7 +35,7 @@ stages:
             displayName: 'Download SSH key'
             inputs:
               secureFile: 'id_rsa_windows'
-              
+
           - task: PowerShell@2
             displayName: 'Copy SSH Key'
             inputs:
@@ -58,10 +58,20 @@ stages:
           - script: ssh windows -vvv "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
             displayName: 'Test SSH Config'
 
-          - script: | 
+          - script: |
               ssh -i "~/.ssh/id_rsa_windows" -v $(sshUser)@$(vmIpAddress) "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
             displayName: 'Test SSH Connection'
 
-          - script: |
-              scp -r -i $(sshKey.secureFilePath) ansible_hotel360.yml $(sshUser)@$(vmIpAddress):C:/Users/razumovsky_r/Desktop/ansible_hotel360_pipeline_copy.yml
+#          - script: |
+#              scp -F "C:/Users/pkolosov/.ssh/config" -i "C:/Users/pkolosov/.ssh/id_rsa_windows" ansible_hotel360.yml razumovsky_r@74.234.112.155:C:/Users/razumovsky_r/Desktop/ansible_hotel360_ssh_windows_copy.yml
+#            displayName: 'Copy Ansible Playbook to VM'
+            
+          - task: PowerShell@2
             displayName: 'Copy Ansible Playbook to VM'
+            inputs:
+              targetType: 'inline'
+              script: |
+                $config="C:/Users/VssAdministrator/.ssh/config"
+                $key="~/.ssh/id_rsa_windows"
+                scp -F $config -i $key ansible_hotel360.yml $(sshUser)@$(vmIpAddress):C:/Users/razumovsky_r/Desktop/ansible_hotel360_ssh_windows_copy.yml
+                ssh windows -v "powershell Get-Content C:/Users/razumovsky_r/Desktop/ansible_hotel360_ssh_windows_copy.yml"
