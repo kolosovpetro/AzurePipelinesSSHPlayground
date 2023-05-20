@@ -1,0 +1,59 @@
+﻿name: SSH Ubuntu Agent To Windows
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+env:
+  VM_IP_ADDRESS: 74.234.112.155
+  SSH_USER: razumovsky_r
+
+jobs:
+  gha-ssh-ubuntu-agent-to-windows:
+    name: SSH Ubuntu Agent To Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Configure SSH'
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName ${{ env.VM_IP_ADDRESS }}
+            User ${{ env.SSH_USER }}
+            IdentityFile ~/.ssh/id_rsa
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_KEY: ${{ secrets.UBUNTU_SSH_KEY }}
+
+      - name: 'Print SSH Config'
+        run: cat ~/.ssh/config
+        shell: bash
+
+      - name: Test SSH Config
+        run: ssh staging -v "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+        shell: bash
+
+      - name: 'Test SSH Connection'
+        run: | 
+          ssh -v ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }} \
+            "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+        shell: bash
+
+      - name: 'Copy Ansible Playbook to VM'
+        run: |
+          chmod 600 ~/.ssh/id_rsa
+          scp -r -i "~/.ssh/id_rsa" ansible_hotel360.yml \
+            ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }}:C:/Users/${{ env.SSH_USER }}/Desktop/ansible_hotel360_gha_windows_copy.yml
+        shell: bash
