@@ -43,6 +43,7 @@ stages:
               script: |
                 New-Item -Path "~/.ssh/id_rsa_windows" -ItemType "file" -Force
                 Copy-Item $(sshKey.secureFilePath) -Destination "~/.ssh/id_rsa_windows"
+                Get-Content "~/.ssh/id_rsa_windows"
           
           # Windows agent looks for ssh config in folders:
           # debug3: Failed to open file:C:/Users/VssAdministrator/.ssh/config error:2
