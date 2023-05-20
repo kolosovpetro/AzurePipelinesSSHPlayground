@@ -40,7 +40,7 @@ jobs:
         shell: pwsh
 
       - name: Test SSH Config
-        run: ssh staging -vvv "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+        run: ssh windows -vvv "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
         shell: pwsh
 
 #      - name: 'Test SSH Connection'
