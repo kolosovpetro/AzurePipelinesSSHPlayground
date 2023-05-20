@@ -45,7 +45,7 @@ jobs:
 
       - name: 'Test SSH Connection'
         run: | 
-          ssh -v ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }} `
+          ssh -i "~/.ssh/id_rsa_windows" -v ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }} `
             "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
         shell: pwsh
 
