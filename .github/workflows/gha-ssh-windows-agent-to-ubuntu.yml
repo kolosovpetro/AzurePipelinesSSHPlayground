@@ -1,4 +1,4 @@
-﻿name: SSH Windows Agent To Windows
+﻿name: SSH Windows Agent To Ubuntu
 
 on:
   push:
@@ -16,8 +16,8 @@ env:
   SSH_USER: razumovsky_r
 
 jobs:
-  gha-ssh-ubuntu-agent-to-windows:
-    name: SSH Windows Agent To Windows
+  gha-ssh-windows-agent-to-ubuntu:
+    name: SSH Windows Agent To Ubuntu
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
