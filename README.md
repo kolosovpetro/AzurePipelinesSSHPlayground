@@ -17,12 +17,19 @@ Virtual machine SSH connection testing out including run of ansible playbooks
 - SSH WSL config is under path: `/root/.ssh/config`
 - SSH Windows Client config is under path: `C:\Users\pkolosov\.ssh`
 
+Windows Azure pipelines agent looks for ssh config in folders:
+
+- debug3: Failed to open file:C:/Users/VssAdministrator/.ssh/config error:2
+- debug3: Failed to open file:C:/ProgramData/ssh/ssh_config error:2
+
 ## SCP commands
 
 - sudo scp -i id_rsa_windows ansible_config.yml razumovsky_r@74.234.112.155:C:
   /Users/razumovsky_r/Desktop/ansible_hotel360_azdo_copy.yml
 - scp -i id_rsa_windows ansible_config.yml razumovsky_r@74.234.112.155:C:
   /Users/razumovsky_r/Desktop/ansible_hotel360_azdo_copy.yml
+- scp -F "C:/Users/pkolosov/.ssh/config" -i "C:/Users/pkolosov/.ssh/id_rsa_windows" ansible_hotel360.yml
+  razumovsky_r@74.234.112.155:C:/Users/razumovsky_r/Desktop/ansible_hotel360_ssh_windows_copy.yml
 
 ## Generate SSH keys for Azure Pipelines
 
