@@ -41,6 +41,18 @@ Windows Github actions agent looks for ssh config in folders:
 - ssh-keygen -m PEM -t rsa -b 2048
 - ssh-keygen -m PEM -t rsa -b 2048 -f "id_rsa"
 
+## Windows Server SSH setup
+
+- Install OpenSSH server 
+- Launch OpenSSH service 
+- Make OpenSSH service to startup Automatic 
+- Make OpenSSH Authentication Agent start Automatic 
+- Launch OpenSSH Authentication Agent service 
+- Open NSG port 22 in Azure 
+- Open Port 22 in Windows firewall 
+- Execute windows_ssh_deploy_key_admin.ps1 script 
+- Connect using ssh -o StrictHostKeyChecking=no -i id_rsa razumovsky_r@4.231.216.105
+
 ## Trello tasks
 
 - Windows SSH: https://trello.com/c/VMsz7Qkh
