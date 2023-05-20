@@ -53,7 +53,7 @@ jobs:
         run: |
           $config="C:/Users/runneradmin/.ssh/config"
           $key="~/.ssh/id_rsa_windows"
-          $dest="C:/Users/razumovsky_r/Desktop/ansible_hotel360_ssh_windows_agent_copy.yml"
+          $dest="C:/Users/razumovsky_r/Desktop/ansible_hotel360_ssh_windows2_agent_copy.yml"
           scp -F $config -i $key ansible_hotel360.yml ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }}:$dest
           ssh windows -v "powershell Get-Content $dest"
         shell: pwsh
