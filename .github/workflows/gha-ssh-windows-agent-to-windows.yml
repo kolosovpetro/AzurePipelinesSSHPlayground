@@ -1,0 +1,58 @@
+﻿name: SSH Windows Agent To Windows
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+env:
+  VM_IP_ADDRESS: 74.234.112.155
+  SSH_USER: razumovsky_r
+
+jobs:
+  gha-ssh-ubuntu-agent-to-windows:
+    name: SSH Windows Agent To Windows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Copy SSH Key'
+        shell: pwsh
+        run: |
+          New-Item -Path "~/.ssh/id_rsa_windows" -ItemType "file" -Value $env:SSH_KEY -Force
+          dir ~/.ssh
+        env:
+          SSH_KEY: ${{ secrets.UBUNTU_SSH_KEY }}
+          
+#      - name: 'Configure SSH'
+#        shell: pwsh
+#        run: |
+#          Copy-Item ssh_config -Destination "C:/Users/runneradmin/.ssh/config"
+#          Get-Content "C:/Users/runneradmin/.ssh/config"
+#
+#      - name: 'Print SSH Config'
+#        run: cat ~/.ssh/config
+#        shell: bash
+
+      - name: Test SSH Config
+        run: ssh staging -vvv "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+        shell: pwsh
+
+#      - name: 'Test SSH Connection'
+#        run: | 
+#          ssh -v ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }} \
+#            "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+#        shell: bash
+#
+#      - name: 'Copy Ansible Playbook to VM'
+#        run: |
+#          chmod 600 ~/.ssh/id_rsa
+#          scp -r -i "~/.ssh/id_rsa" ansible_hotel360.yml \
+#            ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }}:C:/Users/${{ env.SSH_USER }}/Desktop/ansible_hotel360_gha_windows_copy.yml
+#        shell: bash
