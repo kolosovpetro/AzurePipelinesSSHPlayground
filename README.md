@@ -41,6 +41,8 @@ Windows Azure pipelines agent looks for ssh config in folders:
 - Windows SSH: https://trello.com/c/VMsz7Qkh
 - Ubuntu SSH: https://trello.com/c/35maBR5a
 - Ansible via SSH: https://trello.com/c/bprTa7Jr
+- Configure SSH on Windows server: https://trello.com/c/VMsz7Qkh
+- Deploy Docker container to Ubuntu via SSH: https://trello.com/c/zKsA36wA
 
 ## Windows OpenSSH Reading
 
