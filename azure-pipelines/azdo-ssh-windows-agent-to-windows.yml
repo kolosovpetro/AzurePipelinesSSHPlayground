@@ -1,11 +1,13 @@
-trigger:
-  batch: true
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - '*'
+#trigger:
+#  batch: true
+#  branches:
+#    include:
+#      - master
+#  paths:
+#    include:
+#      - '*'
+
+trigger: none
 
 variables:
   - name: 'vmIpAddress'
@@ -61,7 +63,7 @@ stages:
           - script: |
               ssh -i "~/.ssh/id_rsa_windows" -v $(sshUser)@$(vmIpAddress) "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
             displayName: 'Test SSH Connection'
-            
+
           - task: PowerShell@2
             displayName: 'Copy Ansible Playbook to VM'
             inputs:
