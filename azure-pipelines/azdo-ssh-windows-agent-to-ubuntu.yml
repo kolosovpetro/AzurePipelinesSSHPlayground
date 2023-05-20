@@ -1,0 +1,76 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - '*'
+
+#trigger: none
+
+variables:
+  - name: 'vmIpAddress'
+    value: '20.223.160.235'
+  - name: 'sshUser'
+    value: 'razumovsky_r'
+
+stages:
+  - stage: 'SSH_Windows_Agent_To_Ubuntu'
+    displayName: 'SSH Windows Agent To Ubuntu'
+    jobs:
+      - job: 'Build'
+        displayName: 'SSH Windows Agent To Ubuntu'
+        pool:
+          vmImage: 'windows-latest'
+        
+        steps:
+          - task: SSH@0
+            inputs:
+              sshEndpoint: 'SSHConnection'
+              runOptions: 'commands'
+              commands: |
+                cat ~/.ssh/authorized_keys
+
+          - task: DownloadSecureFile@1
+            name: sshKey
+            displayName: 'Download SSH key'
+            inputs:
+              secureFile: 'id_rsa'
+
+          - task: PowerShell@2
+            displayName: 'Copy SSH Key'
+            inputs:
+              targetType: 'inline'
+              script: |
+                New-Item -Path "~/.ssh/id_rsa" -ItemType "file" -Force
+                Copy-Item $(sshKey.secureFilePath) -Destination "~/.ssh/id_rsa"
+          
+          # Windows agent looks for ssh config in folders:
+          # debug3: Failed to open file:C:/Users/VssAdministrator/.ssh/config error:2
+          # debug3: Failed to open file:C:/ProgramData/ssh/ssh_config error:2
+          - task: PowerShell@2
+            displayName: 'Add SSH Config'
+            inputs:
+              targetType: 'inline'
+              script: |
+                Copy-Item ssh_config -Destination "C:/Users/VssAdministrator/.ssh/config"
+                Get-Content "C:/Users/VssAdministrator/.ssh/config"
+
+          - script: ssh staging -vvv "cat ~/.ssh/authorized_keys"
+            displayName: 'Test SSH Config'
+
+          - script: |
+              ssh -i "~/.ssh/id_rsa" -v $(sshUser)@$(vmIpAddress) "cat ~/.ssh/authorized_keys"
+            displayName: 'Test SSH Connection'
+
+          - task: PowerShell@2
+            displayName: 'Copy Ansible Playbook to VM'
+            inputs:
+              targetType: 'inline'
+              script: |
+                $config="C:/Users/VssAdministrator/.ssh/config"
+                $key="~/.ssh/id_rsa"
+                $dest="~/ansible_playbooks/ansible_hotel360_ssh_windows4_agent_copy.yml"
+                scp -F $config -i $key ansible_hotel360.yml $(sshUser)@$(vmIpAddress):$dest
+                ssh staging -v "cat $dest"
