@@ -1,3 +1,4 @@
 .idea
 *.sas.conf
 .terraform
+*.tfplan
