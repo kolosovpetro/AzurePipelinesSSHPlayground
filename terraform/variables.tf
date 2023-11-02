@@ -71,3 +71,8 @@ variable "vm_size" {
   type        = string
   description = "VM size"
 }
+
+variable "os_profile_admin_password" {
+  type        = string
+  description = "Admin password"
+}
