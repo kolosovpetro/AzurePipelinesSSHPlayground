@@ -10,9 +10,9 @@
 trigger: none
 
 variables:
-  - name: 'vmIpAddress'
-    value: '20.238.72.235'
-  - name: 'sshUser'
+  - name: 'VM_DNS'
+    value: 'sshubuntu.devtest.team'
+  - name: 'VM_USER'
     value: 'razumovsky_r'
   - group: 'ssh-settings'
 
@@ -33,5 +33,5 @@ stages:
               sshPublicKey: '$(id_rsa.pub)'       # public key plain text from library
               sshKeySecureFile: 'id_rsa'          # private key from secure files
 
-          - script: ssh -v $(sshUser)@$(vmIpAddress) "hostname"
+          - script: ssh -v $(VM_USER)@$(VM_DNS) "hostname"
             displayName: 'Test SSH Connection'
