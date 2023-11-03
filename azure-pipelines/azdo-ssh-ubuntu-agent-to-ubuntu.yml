@@ -10,9 +10,9 @@
 trigger: none
 
 variables:
-  - name: 'vmIpAddress'
-    value: '20.223.160.235'
-  - name: 'sshUser'
+  - name: 'VM_DNS'
+    value: 'sshubuntu.devtest.team'
+  - name: 'VM_USER'
     value: 'razumovsky_r'
 
 stages:
@@ -45,8 +45,8 @@ stages:
               chmod 600 ~/.ssh/id_rsa
               cat >>~/.ssh/config <<END
               Host staging
-                HostName $(vmIpAddress)
-                User $(sshUser)
+                HostName $(VM_DNS)
+                User $(VM_USER)
                 IdentityFile ~/.ssh/id_rsa
                 StrictHostKeyChecking no
               END
@@ -58,27 +58,11 @@ stages:
           - script: ssh staging -v "hostname"
             displayName: 'Test SSH Config'
 
-          - script: ssh -v $(sshUser)@$(vmIpAddress) "hostname"
+          - script: ssh -v $(VM_USER)@$(VM_DNS) "hostname"
             displayName: 'Test SSH Connection'
 
           - script: |
               chmod 600 $(sshKey.secureFilePath)
               scp -r -i $(sshKey.secureFilePath) ansible_hotel360.yml \
-                $(sshUser)@$(vmIpAddress):/home/$(sshUser)/ansible_playbooks/ansible_hotel360_azdo_copy.yml
+                $(VM_USER)@$(VM_DNS):/home/$(VM_USER)/ansible_playbooks/ansible_hotel360_azdo_copy.yml
             displayName: 'Copy Ansible Playbook to VM'
-          
-          #          - script: |
-          #              ssh staging -v "/home/$(sshUser)/.local/bin/ansible-playbook ~/ansible_playbooks/ansible_hotel360_azdo_copy.yml"
-          #            displayName: 'Run Ansible Playbook on VM'
-          
-          
-          
-          # - task: ms-vscs-rm.vss-services-ansible.ansible-task.Ansible@0
-          #   displayName: 'Run playbook'
-          #   inputs:
-          #     ansibleInterface: remoteMachine
-          #     connectionOverSsh: SSHConnection
-          #     playbookRootRemoteMachine: '$(System.DefaultWorkingDirectory)'
-          #     playbookPathLinkedArtifactOnRemoteMachine: ansible_hotel360.yml
-          #     inventoriesRemoteMachine: hostList
-          #     inventoryHostListRemoteMachine: 20.223.160.235
