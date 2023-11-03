@@ -7,5 +7,5 @@ StrictHostKeyChecking no
 Host windows
 HostName sshwindows.devtest.team
 User razumovsky_r
-IdentityFile ~/.ssh/id_rsa_windows
+IdentityFile ~/.ssh/id_rsa
 StrictHostKeyChecking no
