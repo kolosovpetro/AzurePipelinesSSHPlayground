@@ -1,11 +1,11 @@
-Host staging
-HostName 20.223.160.235
+Host ubuntu
+HostName sshubuntu.devtest.team
 User razumovsky_r
 IdentityFile ~/.ssh/id_rsa
 StrictHostKeyChecking no
 
 Host windows
-HostName 74.234.112.155
+HostName sshwindows.devtest.team
 User razumovsky_r
 IdentityFile ~/.ssh/id_rsa_windows
 StrictHostKeyChecking no
