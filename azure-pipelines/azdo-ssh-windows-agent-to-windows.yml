@@ -61,7 +61,7 @@ stages:
             displayName: 'Test SSH Config'
 
           - script: |
-              ssh -i "~/.ssh/id_rsa" -v $(VM_USER)@$(VM_USER) "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
+              ssh -i "~/.ssh/id_rsa" -v $(VM_USER)@$(VM_DNS) "powershell Get-Content C:\ProgramData\ssh\administrators_authorized_keys"
             displayName: 'Test SSH Connection'
 
           - task: PowerShell@2
