@@ -20,7 +20,7 @@ jobs:
     name: SSH Windows Agent To Ubuntu
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: 'Copy SSH Key'
         shell: pwsh
@@ -40,7 +40,7 @@ jobs:
         shell: pwsh
 
       - name: Test SSH Config
-        run: ssh staging -vvv "cat ~/.ssh/authorized_keys"
+        run: ssh ubuntu -vvv "cat ~/.ssh/authorized_keys"
         shell: pwsh
 
       - name: 'Test SSH Connection'
@@ -55,5 +55,5 @@ jobs:
           $key="~/.ssh/id_rsa"
           $dest="~/ansible_playbooks/ansible_hotel360_ssh_windows3_agent_copy.yml"
           scp -F $config -i $key ansible_hotel360.yml ${{ env.SSH_USER }}@${{ env.VM_IP_ADDRESS }}:$dest
-          ssh staging -v "cat $dest"
+          ssh ubuntu -v "cat $dest"
         shell: pwsh
