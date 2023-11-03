@@ -63,7 +63,6 @@ stages:
 
           - script: |
               chmod 600 $(sshKey.secureFilePath)
-              sudo mkdir -p ~/ansible_playbooks
               scp -r -i $(sshKey.secureFilePath) ansible_hotel360.yml \
                 $(VM_USER)@$(VM_DNS):/home/$(VM_USER)/ansible_playbooks/ansible_hotel360_azdo_copy.yml
             displayName: 'Copy Ansible Playbook to VM'
