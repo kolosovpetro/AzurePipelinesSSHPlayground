@@ -73,4 +73,4 @@ stages:
                 $key="~/.ssh/id_rsa"
                 $dest="~/ansible_playbooks/ansible_hotel360_ssh_windows4_agent_copy.yml"
                 scp -F $config -i $key ansible_hotel360.yml $(VM_USER)@$(VM_DNS):$dest
-                ssh staging -v "cat $dest"
+                ssh ubuntu -v "cat $dest"
