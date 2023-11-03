@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  VM_IP_ADDRESS: 20.223.160.235
+  VM_IP_ADDRESS: sshubuntu.devtest.team
   SSH_USER: razumovsky_r
 
 jobs:

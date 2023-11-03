@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  VM_IP_ADDRESS: 74.234.112.155
+  VM_IP_ADDRESS: sshwindows.devtest.team
   SSH_USER: razumovsky_r
 
 jobs:
