@@ -57,7 +57,7 @@ stages:
                 Copy-Item ssh_config -Destination "C:/Users/VssAdministrator/.ssh/config"
                 Get-Content "C:/Users/VssAdministrator/.ssh/config"
 
-          - script: ssh staging -vvv "cat ~/.ssh/authorized_keys"
+          - script: ssh ubuntu -vvv "cat ~/.ssh/authorized_keys"
             displayName: 'Test SSH Config'
 
           - script: |
