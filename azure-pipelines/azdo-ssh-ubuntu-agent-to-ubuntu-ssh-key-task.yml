@@ -14,14 +14,16 @@ variables:
     value: 'sshubuntu.devtest.team'
   - name: 'VM_USER'
     value: 'razumovsky_r'
+  - name: 'System.Debug'
+    value: 'true'
   - group: 'ssh-settings'
 
 stages:
-  - stage: 'SSH_Ubuntu_Agent_To_Ubuntu'
-    displayName: 'SSH Ubuntu Agent To Ubuntu'
+  - stage: 'SSH_Ubuntu_Agent_To_Ubuntu_KeyTask'
+    displayName: 'SSH Ubuntu Agent To Ubuntu KeyTask'
     jobs:
       - job: 'Build'
-        displayName: 'SSH Ubuntu Agent To Ubuntu'
+        displayName: 'SSH Ubuntu Agent To Ubuntu KeyTask'
         pool:
           vmImage: 'ubuntu-latest'
         

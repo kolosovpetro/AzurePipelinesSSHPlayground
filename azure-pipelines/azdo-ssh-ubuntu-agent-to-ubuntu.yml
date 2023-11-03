@@ -14,6 +14,8 @@ variables:
     value: 'sshubuntu.devtest.team'
   - name: 'VM_USER'
     value: 'razumovsky_r'
+  - name: 'System.Debug'
+    value: 'true'
 
 stages:
   - stage: 'SSH_Ubuntu_Agent_To_Ubuntu'
