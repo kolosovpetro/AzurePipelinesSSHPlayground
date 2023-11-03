@@ -1,0 +1,37 @@
+#trigger:
+#  batch: true
+#  branches:
+#    include:
+#      - master
+#  paths:
+#    include:
+#      - '*'
+
+trigger: none
+
+variables:
+  - name: 'VM_DNS'
+    value: 'sshwindows.devtest.team'
+  - name: 'VM_USER'
+    value: 'razumovsky_r'
+  - group: 'ssh-settings'
+
+stages:
+  - stage: 'SSH_Ubuntu_Agent_To_Ubuntu'
+    displayName: 'SSH Ubuntu Agent To Ubuntu'
+    jobs:
+      - job: 'Build'
+        displayName: 'SSH Ubuntu Agent To Ubuntu'
+        pool:
+          vmImage: 'ubuntu-latest'
+        
+        steps:
+          - task: InstallSSHKey@0
+            displayName: 'Install an SSH key'
+            inputs:
+              knownHostsEntry: '$(known_hosts_windows)'   # known_hosts file contents from local machine after 'ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts'
+              sshPublicKey: '$(id_rsa.pub)'               # public key plain text from library
+              sshKeySecureFile: 'id_rsa'                  # private key from secure files
+
+          - script: ssh -v $(VM_USER)@$(VM_DNS) "hostname"
+            displayName: 'Test SSH Connection'
