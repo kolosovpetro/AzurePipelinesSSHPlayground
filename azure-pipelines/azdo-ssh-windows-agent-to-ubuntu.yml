@@ -10,9 +10,9 @@ trigger:
 #trigger: none
 
 variables:
-  - name: 'vmIpAddress'
-    value: '20.223.160.235'
-  - name: 'sshUser'
+  - name: 'VM_DNS'
+    value: 'sshubuntu.devtest.team'
+  - name: 'VM_USER'
     value: 'razumovsky_r'
 
 stages:
@@ -61,7 +61,7 @@ stages:
             displayName: 'Test SSH Config'
 
           - script: |
-              ssh -i "~/.ssh/id_rsa" -v $(sshUser)@$(vmIpAddress) "cat ~/.ssh/authorized_keys"
+              ssh -i "~/.ssh/id_rsa" -v $(VM_USER)@$(VM_DNS) "cat ~/.ssh/authorized_keys"
             displayName: 'Test SSH Connection'
 
           - task: PowerShell@2
@@ -72,5 +72,5 @@ stages:
                 $config="C:/Users/VssAdministrator/.ssh/config"
                 $key="~/.ssh/id_rsa"
                 $dest="~/ansible_playbooks/ansible_hotel360_ssh_windows4_agent_copy.yml"
-                scp -F $config -i $key ansible_hotel360.yml $(sshUser)@$(vmIpAddress):$dest
+                scp -F $config -i $key ansible_hotel360.yml $(VM_USER)@$(VM_DNS):$dest
                 ssh staging -v "cat $dest"
