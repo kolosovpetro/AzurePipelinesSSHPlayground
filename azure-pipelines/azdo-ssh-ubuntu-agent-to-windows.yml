@@ -36,7 +36,7 @@ stages:
             name: sshKey
             displayName: 'Download SSH key'
             inputs:
-              secureFile: 'id_rsa_windows'
+              secureFile: 'id_rsa'
 
           - script: |
               echo "Installing $(sshKey.secureFilePath) to SSH config"
