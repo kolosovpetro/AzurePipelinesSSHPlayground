@@ -5,4 +5,4 @@ $authorizedKey = Get-Content -Path "C:\Users\pkolosov\OneDrive\20_AZ_400\20_SSH_
 $remotePowershell = "powershell New-Item -Force -ItemType Directory -Path $env:USERPROFILE\.ssh; Add-Content -Force -Path $env:USERPROFILE\.ssh\authorized_keys -Value '$authorizedKey'"
 
 # Connect to your server and run the PowerShell using the $remotePowerShell variable
-ssh razumovsky_r@sshwindows.devtest.team $remotePowershell
+ssh razumovsky_r@ssh-windows.razumovsky.me $remotePowershell
