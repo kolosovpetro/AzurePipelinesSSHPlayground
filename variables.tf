@@ -59,6 +59,6 @@ variable "os_profile_admin_password" {
 }
 
 variable "subscription_id" {
-    type = string
-    description = "Azure Subscription ID"
+  type        = string
+  description = "Azure Subscription ID"
 }
