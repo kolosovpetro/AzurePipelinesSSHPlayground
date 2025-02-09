@@ -2,12 +2,6 @@
 
 Virtual machine SSH connection testing out including run of ansible playbooks
 
-- https://dev.azure.com/PetroKolosovProjects/AzureSSHPlayground
-
-<p align="center">
-  <img src="./img/SSH_gameplay.png" alt="Infra diagram"/>
-</p>
-
 ## SSH connect CLI commands
 
 - ssh -i id_rsa razumovsky_r@74.234.112.155
