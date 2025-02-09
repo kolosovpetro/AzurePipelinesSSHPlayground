@@ -1,4 +1,4 @@
-﻿name: SSH Ubuntu Agent To Ubuntu
+name: SSH Ubuntu Agent To Ubuntu
 
 on:
   push:

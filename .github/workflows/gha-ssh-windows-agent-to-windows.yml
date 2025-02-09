@@ -1,4 +1,4 @@
-﻿name: SSH Windows Agent To Windows
+name: SSH Windows Agent To Windows
 
 on:
   push:

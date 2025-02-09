@@ -1,4 +1,4 @@
-﻿name: SSH Windows Agent To Ubuntu
+name: SSH Windows Agent To Ubuntu
 
 on:
   push:
