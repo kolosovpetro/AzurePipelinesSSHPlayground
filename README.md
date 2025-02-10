@@ -1,32 +1,46 @@
 # Azure SSH Playground
 
-Virtual machine SSH connection testing out including run of ansible playbooks
+- Configuring SSH connection to Windows server
+- Configuring SSH connection to Linux server
+- Testing both in Azure Pipelines CI/CD
+- Configure Azure DevOps SSH Service Connection
 
-- https://dev.azure.com/PetroKolosovProjects/AzureSSHPlayground
+## Azure DevOps tasks used
 
-<p align="center">
-  <img src="./img/SSH_gameplay.png" alt="Infra diagram"/>
-</p>
+- [SSH@0 - SSH v0 task](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/ssh-v0?view=azure-pipelines)
+- [InstallSSHKey@0 - Install SSH key v0 task](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/install-ssh-key-v0?view=azure-pipelines)
 
-## SSH connect CLI commands
+## Azure DevOps Configuration
 
-- ssh -i id_rsa razumovsky_r@74.234.112.155
-- sudo ssh -i id_rsa razumovsky_r@74.234.112.155
-- ssh -i id_rsa pkolosov@74.234.112.155
-- ssh -o StrictHostKeyChecking=no -i id_rsa razumovsky_r@74.234.112.155
-- sudo ssh -o StrictHostKeyChecking=no -i id_rsa razumovsky_r@74.234.112.155
+- Configure SSH Service Connection
+- Update variable group `ssh-settings` with servers fingerprints
+- Update private key in secure files `id_rsa`
+
+## Windows Server SSH setup
+
+- `Windows Server` requires preinstalled `Chocolatey` package manager
+- In this example `Packer` image is used: https://github.com/kolosovpetro/PackerAzureWindowsImages
+- Enter Windows Server via `RDP`
+- Run `Configure-Windows-SSH.ps1` script on Windows Server
+- Execute `Deploy-SSH-Key-Admin.ps1` script from local machine
+- ssh razumovsky_r@ssh-windows.razumovsky.me
+
+## SSH commands
+
+- ssh razumovsky_r@ssh-windows.razumovsky.me
+- ssh razumovsky_r@ssh-ubuntu.razumovsky.me
 
 ## Config paths
 
 - SSH WSL config is under path: `/root/.ssh/config`
 - SSH Windows Client config is under path: `C:\Users\pkolosov\.ssh`
 
-Windows Azure pipelines agent looks for ssh config in folders:
+### Windows Azure pipelines agent looks for ssh config in folders:
 
 - debug3: Failed to open file:C:/Users/VssAdministrator/.ssh/config error:2
 - debug3: Failed to open file:C:/ProgramData/ssh/ssh_config error:2
 
-Windows Github actions agent looks for ssh config in folders:
+### Windows GitHub actions agent looks for ssh config in folders:
 
 - debug3: Failed to open file:C:/Users/runneradmin/.ssh/config error:2
 - debug3: Failed to open file:C:/ProgramData/ssh/ssh_config error:2
@@ -45,18 +59,6 @@ Windows Github actions agent looks for ssh config in folders:
 - ssh-keygen -m PEM -t rsa -b 2048
 - ssh-keygen -m PEM -t rsa -b 2048 -f "id_rsa"
 
-## Windows Server SSH setup
-
-- Install OpenSSH server 
-- Launch OpenSSH service 
-- Make OpenSSH service to startup Automatic 
-- Make OpenSSH Authentication Agent start Automatic 
-- Launch OpenSSH Authentication Agent service 
-- Open NSG port 22 in Azure 
-- Open Port 22 in Windows firewall 
-- Execute windows_ssh_deploy_key_admin.ps1 script 
-- Connect using ssh -o StrictHostKeyChecking=no -i id_rsa razumovsky_r@4.231.216.105
-
 ## Trello tasks
 
 - Windows SSH: https://trello.com/c/VMsz7Qkh
@@ -65,7 +67,7 @@ Windows Github actions agent looks for ssh config in folders:
 - Configure SSH on Windows server: https://trello.com/c/VMsz7Qkh
 - Deploy Docker container to Ubuntu via SSH: https://trello.com/c/zKsA36wA
 
-## Windows OpenSSH Reading
+## Windows OpenSSH Docs
 
 - https://youtu.be/pFTC4Rt-EDQ
 - https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement

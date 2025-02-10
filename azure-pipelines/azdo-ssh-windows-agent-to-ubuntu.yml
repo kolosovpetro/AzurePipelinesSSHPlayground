@@ -1,17 +1,15 @@
-#trigger:
-#  batch: true
-#  branches:
-#    include:
-#      - master
-#  paths:
-#    include:
-#      - '*'
-
-trigger: none
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - '*'
 
 variables:
   - name: 'VM_DNS'
-    value: 'sshubuntu.devtest.team'
+    value: 'ssh-ubuntu.razumovsky.me'
   - name: 'VM_USER'
     value: 'razumovsky_r'
   - name: 'System.Debug'
@@ -25,7 +23,7 @@ stages:
         displayName: 'SSH Windows Agent To Ubuntu'
         pool:
           vmImage: 'windows-latest'
-        
+
         steps:
           - task: SSH@0
             inputs:
@@ -47,7 +45,7 @@ stages:
               script: |
                 New-Item -Path "~/.ssh/id_rsa" -ItemType "file" -Force
                 Copy-Item $(sshKey.secureFilePath) -Destination "~/.ssh/id_rsa"
-          
+
           # Windows agent looks for ssh config in folders:
           # debug3: Failed to open file:C:/Users/VssAdministrator/.ssh/config error:2
           # debug3: Failed to open file:C:/ProgramData/ssh/ssh_config error:2
@@ -65,14 +63,3 @@ stages:
           - script: |
               ssh -i "~/.ssh/id_rsa" -v $(VM_USER)@$(VM_DNS) "cat ~/.ssh/authorized_keys"
             displayName: 'Test SSH Connection'
-
-          - task: PowerShell@2
-            displayName: 'Copy Ansible Playbook to VM'
-            inputs:
-              targetType: 'inline'
-              script: |
-                $config="C:/Users/VssAdministrator/.ssh/config"
-                $key="~/.ssh/id_rsa"
-                $dest="~/ansible_playbooks/ansible_hotel360_ssh_windows4_agent_copy.yml"
-                scp -F $config -i $key ansible_hotel360.yml $(VM_USER)@$(VM_DNS):$dest
-                ssh ubuntu -v "cat $dest"

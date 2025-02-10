@@ -1,17 +1,15 @@
-#trigger:
-#  batch: true
-#  branches:
-#    include:
-#      - master
-#  paths:
-#    include:
-#      - '*'
-
-trigger: none
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - '*'
 
 variables:
   - name: 'VM_DNS'
-    value: 'sshubuntu.devtest.team'
+    value: 'ssh-ubuntu.razumovsky.me'
   - name: 'VM_USER'
     value: 'razumovsky_r'
   - name: 'System.Debug'
@@ -26,7 +24,7 @@ stages:
         displayName: 'SSH Ubuntu Agent To Ubuntu KeyTask'
         pool:
           vmImage: 'ubuntu-latest'
-        
+
         steps:
           - task: InstallSSHKey@0
             displayName: 'Install an SSH key'

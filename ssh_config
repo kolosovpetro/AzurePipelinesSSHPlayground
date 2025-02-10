@@ -1,11 +1,11 @@
 Host ubuntu
-HostName sshubuntu.devtest.team
+HostName ssh-ubuntu.razumovsky.me
 User razumovsky_r
 IdentityFile ~/.ssh/id_rsa
 StrictHostKeyChecking no
 
 Host windows
-HostName sshwindows.devtest.team
+HostName ssh-windows.razumovsky.me
 User razumovsky_r
 IdentityFile ~/.ssh/id_rsa
 StrictHostKeyChecking no

@@ -2,3 +2,5 @@
 *.sas.conf
 .terraform
 *.tfplan
+id_rsa
+*.pub
