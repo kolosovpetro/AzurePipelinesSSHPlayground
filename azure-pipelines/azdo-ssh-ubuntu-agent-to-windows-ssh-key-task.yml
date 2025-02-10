@@ -7,8 +7,6 @@ trigger:
     include:
       - '*'
 
-#trigger: none
-
 variables:
   - name: 'VM_DNS'
     value: 'ssh-windows.razumovsky.me'
