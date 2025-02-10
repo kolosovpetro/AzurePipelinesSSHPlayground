@@ -1,8 +1,14 @@
-$OpenSSHStatus = Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH.Server*'
-Write-Host "Package name: $( $OpenSSHStatus.Name )"
-Write-Host "Package state: $( $OpenSSHStatus.State )"
+choco install openssh -y -f
 
-if ($OpenSSHStatus.State -eq "NotPresent")
-{
-    Write-Host "Package is missing"
-}
+Set-Location "C:\Program Files\OpenSSH-Win64"
+
+powershell.exe -ExecutionPolicy Bypass -File install-sshd.ps1
+
+New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' `
+    -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+
+net start sshd
+net start ssh-agent
+
+Set-Service sshd -StartupType Automatic
+Set-Service ssh-agent -StartupType Automatic

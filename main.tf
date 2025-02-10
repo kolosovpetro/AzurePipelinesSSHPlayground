@@ -42,27 +42,28 @@ module "ubuntu-vm" {
   ]
 }
 
-module "windows_vm" {
-  source                      = "./modules/windows-vm"
-  ip_configuration_name       = "ipc-windows-${var.prefix}"
-  network_interface_name      = "nic-windows-${var.prefix}"
-  os_profile_admin_password   = var.os_profile_admin_password
-  os_profile_admin_username   = var.os_profile_admin_username
-  os_profile_computer_name    = "vm-windows-${var.prefix}"
-  public_ip_name              = "pip-windows-${var.prefix}"
-  resource_group_location     = azurerm_resource_group.public.location
-  resource_group_name         = azurerm_resource_group.public.name
-  storage_image_reference_sku = "windows-server2019-v2"
-  storage_os_disk_name        = "osdisk-windows-${var.prefix}"
-  subnet_id                   = module.network.subnet_windows_servers_id
-  vm_name                     = "vm-windows-${var.prefix}"
-  vm_size                     = var.vm_size
-  image_resource_group_name   = "rg-packer-images-win"
-  network_security_group_id   = module.network.network_security_group_id
-  private_ip_address          = "10.0.0.10"
+data "azurerm_image" "search" {
+  name                = "windows-server2022-v1"
+  resource_group_name = "rg-packer-images-win"
+}
+
+module "windows_vm_custom_image" {
+  source                    = "git::git@github.com:kolosovpetro/AzureWindowsVMTerraform.git//modules/windows-vm-custom-image"
+  ip_configuration_name     = "ipc-windows-${var.prefix}"
+  network_interface_name    = "nic-windows-${var.prefix}"
+  network_security_group_id = module.network.network_security_group_id
+  os_profile_admin_password = var.os_profile_admin_password
+  os_profile_admin_username = "razumovsky_r"
+  os_profile_computer_name  = "vm-windows-${var.prefix}"
+  public_ip_name            = "pip-windows-${var.prefix}"
+  resource_group_location   = azurerm_resource_group.public.location
+  resource_group_name       = azurerm_resource_group.public.name
+  custom_image_id           = data.azurerm_image.search.id
+  storage_os_disk_name      = "osdisk-windows-${var.prefix}"
+  subnet_id                 = module.network.subnet_windows_servers_id
+  vm_name                   = "vm-windows-${var.prefix}"
 
   depends_on = [
-    module.network,
-    azurerm_resource_group.public
+    data.azurerm_image.search
   ]
 }

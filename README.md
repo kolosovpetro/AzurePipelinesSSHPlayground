@@ -1,26 +1,22 @@
 # Azure SSH Playground
 
-Virtual machine SSH connection testing out including run of ansible playbooks
+- Configuring SSH connection to Windows server
+- Configuring SSH connection to Linux server
+- Testing both in Azure Pipelines CI/CD
 
 ## Windows Server SSH setup
 
-- Install OpenSSH server
-- Launch OpenSSH service
-- Make OpenSSH service to startup Automatic
-- Make OpenSSH Authentication Agent start Automatic
-- Launch OpenSSH Authentication Agent service
-- Open Port 22 in Windows firewall
-- Open NSG port 22 in Azure
-- Execute `Deploy-SSH-Key-Admin.ps1` script
-- ssh -i id_rsa razumovsky_r@ssh-windows.razumovsky.me
+- `Windows Server` requires preinstalled `Chocolatey` package manager
+- In this example `Packer` image is used: https://github.com/kolosovpetro/PackerAzureWindowsImages
+- Enter Windows Server via `RDP`
+- Run `Configure-Windows-SSH.ps1` script on Windows Server
+- Execute `Deploy-SSH-Key-Admin.ps1` script from local machine
+- ssh razumovsky_r@ssh-windows.razumovsky.me
 
-## SSH connect
+## SSH commands
 
-- ssh -i id_rsa razumovsky_r@74.234.112.155
-- sudo ssh -i id_rsa razumovsky_r@74.234.112.155
-- ssh -i id_rsa pkolosov@74.234.112.155
-- ssh -o StrictHostKeyChecking=no -i id_rsa razumovsky_r@74.234.112.155
-- sudo ssh -o StrictHostKeyChecking=no -i id_rsa razumovsky_r@74.234.112.155
+- ssh razumovsky_r@ssh-windows.razumovsky.me
+- ssh razumovsky_r@ssh-ubuntu.razumovsky.me
 
 ## Config paths
 

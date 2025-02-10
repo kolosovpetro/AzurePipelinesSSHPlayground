@@ -3,7 +3,7 @@ output "ubuntu_vm_ip" {
 }
 
 output "windows_vm_ip" {
-  value = module.windows_vm.public_ip_address
+  value = module.windows_vm_custom_image.public_ip
 }
 
 output "os_username" {

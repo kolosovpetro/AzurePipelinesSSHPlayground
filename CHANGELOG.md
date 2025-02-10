@@ -16,3 +16,7 @@ and this project adheres to [Semantic Versioning v2.0.0](https://semver.org/spec
 - Get rid of Cloudflare terraform provider
 - Move terraform files to root directory
 - Add cloudflare dns configuration powershell
+- Get rid of unused modules
+- SSH key deploy script
+- SSH server deploy script
+- Minor edits in cloudflare records script
