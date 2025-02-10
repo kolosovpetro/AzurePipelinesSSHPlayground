@@ -3,6 +3,18 @@
 - Configuring SSH connection to Windows server
 - Configuring SSH connection to Linux server
 - Testing both in Azure Pipelines CI/CD
+- Configure Azure DevOps SSH Service Connection
+
+## Azure DevOps tasks used
+
+- [SSH@0 - SSH v0 task](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/ssh-v0?view=azure-pipelines)
+- [InstallSSHKey@0 - Install SSH key v0 task](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/install-ssh-key-v0?view=azure-pipelines)
+
+## Azure DevOps Configuration
+
+- Configure SSH Service Connection
+- Update variable group `ssh-settings` with servers fingerprints
+- Update private key in secure files `id_rsa`
 
 ## Windows Server SSH setup
 
